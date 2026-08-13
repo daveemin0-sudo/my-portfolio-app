@@ -1,23 +1,44 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import ProjectsGrid from './components/ProjectsGrid';
+import About from './components/About';
+import Contact from './components/Contact';
+import ProjectModal from './components/ProjectModal';
+import { featuredProject, gridProjects } from './data/projectsData';
 import './App.css';
 
 function App() {
+  const [selectedProject, setSelectedProject] = useState(null);
+
+  const handleSelectProject = (project) => {
+    setSelectedProject(project);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedProject(null);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="portfolio-app">
+      <Navbar />
+      <main>
+        <Hero />
+        <ProjectsGrid
+          featuredProject={featuredProject}
+          gridProjects={gridProjects}
+          onSelectProject={handleSelectProject}
+        />
+        <About />
+        <Contact />
+      </main>
+
+      {selectedProject && (
+        <ProjectModal
+          project={selectedProject}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 }
